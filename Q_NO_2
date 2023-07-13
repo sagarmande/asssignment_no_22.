@@ -1,0 +1,63 @@
+# Node class for the binary tree
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+# Function to flip the binary tree
+def flip_binary_tree(root):
+    # Base case: if the root is None or it's a leaf node, no flip is required
+    if root is None or (root.left is None and root.right is None):
+        return root
+
+    # Recursively flip the left and right subtrees
+    flipped_left = flip_binary_tree(root.left)
+    flipped_right = flip_binary_tree(root.right)
+
+    # Make the left child of the root as the new root
+    root.left = None
+    root.right = None
+
+    # Make the flipped left child as the right child of the root
+    if flipped_left:
+        root.right = flipped_left
+
+    # Find the rightmost node of the flipped left subtree
+    current = flipped_left
+    while current and current.right:
+        current = current.right
+
+    # Make the flipped right child as the left child of the rightmost node
+    if current:
+        current.right = flipped_right
+
+    return root
+
+# Utility function to print the binary tree in preorder traversal
+def print_binary_tree(root):
+    if root is None:
+        return
+    print(root.data, end=" ")
+    print_binary_tree(root.left)
+    print_binary_tree(root.right)
+
+# Example usage
+# Create a binary tree
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+
+# Print the original binary tree
+print("Original Binary Tree:")
+print_binary_tree(root)
+print()
+
+# Flip the binary tree
+flipped_root = flip_binary_tree(root)
+
+# Print the flipped binary tree
+print("Flipped Binary Tree:")
+print_binary_tree(flipped_root)

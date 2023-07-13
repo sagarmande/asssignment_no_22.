@@ -1,0 +1,44 @@
+# Node class for the binary tree
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+# Function to print all root-to-leaf paths of a binary tree without recursion
+def print_root_to_leaf_paths(root):
+    if root is None:
+        return
+
+    # Stack to store the nodes and their paths
+    stack = [(root, str(root.data))]
+
+    # Perform iterative DFS
+    while stack:
+        node, path = stack.pop()
+
+        # If the node is a leaf, print the path
+        if node.left is None and node.right is None:
+            print(path)
+
+        # Push the right child to the stack with the updated path
+        if node.right:
+            stack.append((node.right, path + "->" + str(node.right.data)))
+
+        # Push the left child to the stack with the updated path
+        if node.left:
+            stack.append((node.left, path + "->" + str(node.left.data)))
+
+# Example usage
+# Create a binary tree
+root = Node(6)
+root.left = Node(3)
+root.right = Node(5)
+root.left.left = Node(2)
+root.left.right = Node(5)
+root.right.right = Node(4)
+root.left.right.left = Node(7)
+root.left.right.right = Node(4)
+
+# Print all root-to-leaf paths
+print_root_to_leaf_paths(root)
